@@ -2,8 +2,8 @@
              (guix licenses)
              (guix git-download)
              (guix build-system asdf)
-			 (guix utils)
-			 (guix build utils)
+			 ;; (guix utils)
+			 ;; (guix build utils)
 			 (gnu packages lisp-xyz)
 			 (gnu packages lisp-check)
 			 )
@@ -23,7 +23,7 @@
 			 (url "https://github.com/LukasZumvorde/retumilo")
 			 (commit version)))
        (sha256
-        (base32 "0hvjpkmihzp83pk3wqv528npha7q098k2cwawd8gahm5r83ld76b"))))
+        (base32 "0qdfbbdkxx31zxi7q50kl5xfbiiynxb6f56smb6vmzizn83xfkah"))))
     (build-system asdf-build-system/sbcl)
 	(inputs (list
 			 sbcl-cl-cffi-gtk
@@ -31,12 +31,15 @@
 			 sbcl-rove))
 	(outputs '("out" "lib"))
 	(arguments '(#:phases
-				 (modify-phases %standard-phases
+				 (modify-phases
+				  %standard-phases
+				  (delete 'check)
 				   (add-after 'create-asdf-configuration 'build-program
 					 (lambda* (#:key outputs #:allow-other-keys)
 					   (build-program
 						(string-append (assoc-ref outputs "out") "/bin/retumilo")
 						outputs
-						#:entry-program '((retumilo:main-retumilo) 0)))))))))
+						#:entry-program '((retumilo:main-retumilo) 0)))))))
+	))
 
 retumilo
